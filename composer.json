@@ -1,0 +1,24 @@
+{
+    "name": "rizhou/page-cache",
+    "description": "page cache",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rizhou",
+            "email": "932188443@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Rizhou\\PageCache\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rizhou\\PageCache\\LaravelServiceProvider"
+            ]
+        }
+    }
+}
