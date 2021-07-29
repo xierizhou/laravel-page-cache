@@ -2,6 +2,7 @@
 namespace Rizhou\PageCache;
 
 use Illuminate\Support\ServiceProvider;
+use Rizhou\PageCache\Console\ClearCommand;
 
 class laravelServiceProvider extends ServiceProvider
 {
@@ -12,10 +13,13 @@ class laravelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
+        $this->commands(ClearCommand::class);
+
         $this->mergeConfigFrom(
             dirname(__DIR__).'/config/page-cache.php', 'page-cache'
         );
+
 
     }
 
