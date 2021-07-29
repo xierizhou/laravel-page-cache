@@ -173,9 +173,8 @@ class PageCache
      * @param string $path
      * @return bool
      */
-    public function clear($path = ''){
-        return $this->filesystem->deleteDirectory(rtrim(config('page-cache.cache_dir'),'/').'/'.$path);
-        //return $this->filesystem->cleanDirectory(rtrim(config('page-cache.cache_dir'),'/').'/'.$path);
+    public function clear($path=''){
+        return $this->filesystem->cleanDirectory(rtrim(config('page-cache.cache_dir'),'/').'/'.$path);
     }
 
 }
