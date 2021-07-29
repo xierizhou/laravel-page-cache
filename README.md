@@ -5,7 +5,7 @@ Laravel 页面静态化缓存
 
 #### 安裝教程
 
-    composer require rizhou/laravel-page-cache
+    composer require rizhou/page-cache
 
 #### 导出配置文件
 
