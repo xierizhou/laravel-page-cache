@@ -1,6 +1,8 @@
 {
     "name": "rizhou/page-cache",
+    "type": "library",
     "description": "page cache",
+    "homepage": "https://github.com/xierizhou/laravel-page-cache.git",
     "license": "MIT",
     "authors": [
         {
@@ -8,7 +10,9 @@
             "email": "932188443@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.1.0"
+    },
     "autoload": {
         "psr-4": {
             "Rizhou\\PageCache\\": "src/"
