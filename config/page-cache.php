@@ -9,7 +9,7 @@ return [
     | Enable page caching
     |
     */
-    'enable'=>true,
+    'enable'=>env('PAGE_CACHE',false),
 
     /*
     |--------------------------------------------------------------------------
