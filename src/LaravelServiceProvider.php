@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Rizhou\PageCache\Console\ClearCommand;
 use Rizhou\PageCache\Middleware\PageCacheResponse;
 
-class laravelServiceProvider extends ServiceProvider
+class LaravelServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

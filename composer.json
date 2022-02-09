@@ -1,7 +1,7 @@
 {
     "name": "rizhou/page-cache",
     "type": "library",
-    "description": "page cache",
+    "description": "PageCache",
     "homepage": "https://github.com/xierizhou/laravel-page-cache.git",
     "license": "MIT",
     "authors": [
