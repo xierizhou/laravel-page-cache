@@ -35,7 +35,7 @@ class PageCacheResponse
             $refresh = true;
         }
 
-        if(!$refresh && $content = $this->pageCache->getCacheResponse($request)){
+        if($this->pageCache->enable() && !$refresh  && $content = $this->pageCache->getCacheResponse($request) ){
             $response = response($content);
         }else{
             $response = $next($request);

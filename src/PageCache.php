@@ -187,6 +187,7 @@ class PageCache
      */
     public function getCacheResponse($request){
         $cacheFilePath = $this->getCacheFilePath($request);
+
         if($this->filesystem->exists($cacheFilePath)  && $this->filesystem->isReadable($cacheFilePath) ){
             return $this->filesystem->get($cacheFilePath);
         }
