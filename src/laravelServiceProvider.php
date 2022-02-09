@@ -3,6 +3,7 @@ namespace Rizhou\PageCache;
 
 use Illuminate\Support\ServiceProvider;
 use Rizhou\PageCache\Console\ClearCommand;
+use Rizhou\PageCache\Middleware\PageCacheResponse;
 
 class laravelServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,17 @@ class laravelServiceProvider extends ServiceProvider
             dirname(__DIR__).'/config/page-cache.php' => config_path('page-cache.php'),
         ]);
 
-
+        $this->addMiddlewareAlias('page.cache',PageCacheResponse::class);
     }
+
+    protected function addMiddlewareAlias($name,$class){
+        $router = $this->app['router'];
+
+        if(method_exists($router,'aliasMiddleware')){
+            return $router->aliasMiddleware($name,$class);
+        }
+
+        return $router->middleware($name,$class);
+    }
+
 }

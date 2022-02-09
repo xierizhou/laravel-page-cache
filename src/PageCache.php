@@ -29,19 +29,20 @@ class PageCache
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
+
     }
+
+
+
 
     /**
      * Determine if caching is required
      *
-     * @param \Illuminate\Http\Response $response
      * @param \Illuminate\Http\Request $request
      * @return bool
      */
-    public function needIfCache($request,$response){
-
-        return $request->isMethod('GET') && $response->getStatusCode() == 200 && $this->enable() && !$this->inExceptArray($request);
-
+    public function needIfCache($request){
+        return $request->isMethod('GET') && !$request->ajax() && $this->enable() && !$this->inExceptArray($request);
     }
 
     /**
@@ -52,20 +53,16 @@ class PageCache
      * @return $this
      */
     public function cache($request,$response){
-
         $cacheFilePath = $this->getCacheFilePath($request);
-
-        $dir = $this->getCacheDirectory($request);
+        $dir = $this->getCacheDirectory();
 
         if(!$this->filesystem->exists($dir)){
             $this->filesystem->makeDirectory($dir,0755,true,true);
         }
-
-        if(!$this->filesystem->exists($cacheFilePath)){
+        if($request->refresh == 'page-cache' || !$this->filesystem->exists($cacheFilePath)){
             $this->filesystem->put(
                 $cacheFilePath,
                 $response->getContent()
-
             );
         }
 
@@ -105,11 +102,11 @@ class PageCache
     /**
      * Gets the path to the storage
      *
-     * @param \Illuminate\Http\Request $request
+     *
      * @return string
      */
-    protected function getCacheDirectory($request){
-        return rtrim(config('page-cache.cache_dir'),'/').'/'.ltrim($request->getPathInfo(),'/');
+    protected function getCacheDirectory(){
+        return rtrim(config('page-cache.cache_dir'),'/');
     }
 
     /**
@@ -119,7 +116,14 @@ class PageCache
      * @return string
      */
     protected function getCacheFileName($request){
-        return md5($request->getRequestUri()).'.php';
+        $request->except('refresh');
+        $query = http_build_query($request->except('refresh'));
+        if($query){
+            $query = '?'.$query;
+        }
+        $name = $request->getPathInfo().$query;
+
+        return md5($name).'.php';
     }
 
     /**
@@ -128,8 +132,7 @@ class PageCache
      * @return string
      */
     protected function getCacheFilePath($request){
-        $dir = $this->getCacheDirectory($request);
-
+        $dir = $this->getCacheDirectory();
         $fileName = $this->getCacheFileName($request);
 
         return $dir.'/'.$fileName;
@@ -176,5 +179,21 @@ class PageCache
     public function clear($path=''){
         return $this->filesystem->cleanDirectory(rtrim(config('page-cache.cache_dir'),'/').'/'.$path);
     }
+
+    /**
+     * @param $request
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function getCacheResponse($request){
+        $cacheFilePath = $this->getCacheFilePath($request);
+        if($this->filesystem->exists($cacheFilePath)  && $this->filesystem->isReadable($cacheFilePath) ){
+            return $this->filesystem->get($cacheFilePath);
+        }
+        return false;
+    }
+
+
+
 
 }
