@@ -40,9 +40,9 @@ class PageCacheResponse
         }else{
             $response = $next($request);
             if($response->getStatusCode() == 200 && $this->pageCache->needIfCache($request)){
-                $content = $this->pageCache->cache($request,$response)->response();
+                $this->pageCache->cache($request,$response)->response();
             }
-            $response->setContent($content);
+
         }
 
         return $response;
