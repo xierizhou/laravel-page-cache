@@ -189,7 +189,7 @@ class PageCache
         $cacheFilePath = $this->getCacheFilePath($request);
 
         if($this->filesystem->exists($cacheFilePath)  && $this->filesystem->isReadable($cacheFilePath) ){
-            require_once $cacheFilePath;
+            require_once $cacheFilePath;exit;
             //return $this->filesystem->get($cacheFilePath);
         }
         return false;
